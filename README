@@ -1,0 +1,6 @@
+Yet another Sudoku solver.
+
+Usage:
+  $ sudoku.rb -f <single puzzle filename>
+  $ sudoku.rb -p <puzzle string>
+  $ sudoku_batch.rb <puzzle set>
