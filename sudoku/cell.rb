@@ -1,3 +1,4 @@
+module Sudoku
 class Cell
 
     attr_reader :row, :col
@@ -94,4 +95,5 @@ class Cell
         row % Board::DIM == Board::DIM - 1
     end
 
+end
 end

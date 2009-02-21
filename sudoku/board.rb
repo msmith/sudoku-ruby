@@ -1,6 +1,7 @@
-require 'cell'
+require 'sudoku/cell'
 require 'erb'
 
+module Sudoku
 class Board
 
     DIM = 3
@@ -211,4 +212,5 @@ private
         end
     end
     
+end
 end
