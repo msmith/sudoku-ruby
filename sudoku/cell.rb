@@ -1,7 +1,7 @@
 module Sudoku
 class Cell
 
-    attr_reader :row, :col
+    attr_reader :row, :col, :value, :possibles
 
     def initialize board, row, col
         @board = board
@@ -30,17 +30,9 @@ class Cell
     def possibles=(values)
         @possibles = values
     end
-
-    def possibles
-        @possibles
-    end
     
     def region
         @region ||= (@row / Board::DIM) * Board::DIM + (@col / Board::DIM)
-    end
-    
-    def value
-        @value
     end
     
     def value=(v)
