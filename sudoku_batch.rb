@@ -16,8 +16,7 @@ puts
 
 File.open(FILE) do |f|
     f.each_line do |line|
-        b = Board.new
-        b.load(line)
+        b = Board.new(line)
         b.solve
         solved += 1 if b.solved?
         total += 1

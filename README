@@ -4,3 +4,7 @@ Usage:
   $ sudoku.rb -f <single puzzle filename>
   $ sudoku.rb -p <puzzle string>
   $ sudoku_batch.rb <puzzle set>
+  
+Sample puzzles:
+  puzzles/ - contains a few individual puzzle files
+  sets/    - contains puzzle sets
