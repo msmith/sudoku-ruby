@@ -104,7 +104,7 @@ class Board
         ERB.new(template, nil, '>').result(binding)
     end
     
-    # scans the board for a cell that can be solved
+    # Scan the board for a cell that can be solved
     def scan
 
         # scan scopes for numbers that appear as a possibility just once
@@ -134,13 +134,13 @@ class Board
             sets.each do |set|
                 scope.each do |cell|
                     next if set == cell.possibles
-                    cell.possibles.delete_if { |num| set.include?(num) }
+                    cell.possibles -= set
                 end
             end
         end
         
         for num in (1..MAX_VAL) do
-            # scan rows for number appearing as a possibilities in only one region
+            # scan rows for number appearing as a possibility in only one region
             rows.each do |row|
                 possible_cells = row.select { |cell| cell.possible?(num) }
                 next if possible_cells.size < 2
@@ -153,7 +153,7 @@ class Board
                 end
             end
 
-            # scan columns for number appearing as a possibilities in only one region
+            # scan columns for number appearing as a possibility in only one region
             cols.each do |col|
                 possible_cells = col.select { |cell| cell.possible?(num) }
                 next if possible_cells.size < 2
