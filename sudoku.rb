@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'sudoku/board'
+require 'sudoku/solver'
 
 if __FILE__ == $0
 
@@ -39,9 +40,9 @@ if __FILE__ == $0
         puzzle_string = File.read(file_in)
     end
     b = Sudoku::Board.new(puzzle_string)
-
+    
     puts b
-    b.solve(max_turns) do |i, cell|
+    Sudoku::Solver.new(b).solve(max_turns) do |i, cell|
         puts
         puts "#{i}: #{cell} = #{cell.value}"
         puts

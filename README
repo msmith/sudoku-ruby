@@ -1,4 +1,4 @@
-Yet another Sudoku solver.
+A small rule-based Sudoku solver.
 
 Usage:
   $ sudoku.rb -f <single puzzle filename>

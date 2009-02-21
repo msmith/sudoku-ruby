@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'sudoku/board'
+require 'sudoku/solver'
 
 if __FILE__ == $0
 
@@ -19,7 +20,7 @@ if __FILE__ == $0
     File.open(FILE) do |f|
         f.each_line do |line|
             b = Sudoku::Board.new(line)
-            b.solve
+            Sudoku::Solver.new(b).solve
             solved += 1 if b.solved?
             total += 1
             secs = (Time.now - start)
