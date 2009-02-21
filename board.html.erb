@@ -1,0 +1,60 @@
+<html>
+<head>
+  <style type="text/css">
+    table { border-collapse: collapse }
+    span.e { visibility: hidden }
+    span.p { color: #CCC }
+    td { letter-spacing: 2px; text-align: center; vertical-align: middle }
+    td { width: 2.2em; height: 2.2em; border: 1px solid gray; padding: 5px }
+    td.t { border-top: 2px solid }
+    td.l { border-left: 2px solid }
+    td.b { border-bottom: 2px solid }
+    td.r { border-right: 2px solid }
+    td.s { font-size: 130%; font-weight: bold }
+  </style>
+</head>
+<body>
+  <table style='float:left' border='0' cellspacing='0'>
+  <% cells.each do |cell| %>
+    <% if cell.first_in_row? %>
+    <tr>
+    <% end %>
+      <% 
+        cell_class = ""
+        cell_class << " t" if (cell.first_in_region_col?)
+        cell_class << " l" if (cell.first_in_region_row?)
+        cell_class << " b" if (cell.last_in_region_col?)
+        cell_class << " r" if (cell.last_in_region_row?)
+        cell_class << " s" if (cell.solved?)
+      %>
+      <td class='<%= cell_class.strip %>'>
+      <% if (cell.solved?) %>
+        <%= (cell.value || ".").to_s %>
+      <% else %>
+        <% (1..MAX_VAL).each do |v| %>
+        <% val_class = cell.possible?(v) ? "p" : "e" %>
+        <span class='<%= val_class %>'><%= v %></span>
+        <% if (v % DIM == 0) %>
+          <br/>
+        <% end %>
+        <% end %>
+      <% end %>
+      </td>
+    <% if cell.last_in_row? %>
+    </tr>
+    <% end %>
+  <% end %>
+</table>
+<table style='float:right'>
+  <tr>
+    <th>num</th><th>possibles</th>
+  </tr>
+<% (1..MAX_VAL).each do |num| %>
+    <tr>
+      <td><%= num %></td>
+      <td><%= possibles(num) %></td>
+    </tr>
+<% end %>
+  </table>
+</body>
+</html>

@@ -1,4 +1,5 @@
 require 'cell'
+require 'erb'
 
 class Board
 
@@ -8,21 +9,19 @@ class Board
     MAX_VAL = DIM2
     
     def initialize
-        reset
+        @cells = new_cells
         @cells_in_col = []
         @cells_in_region = []
     end
     
-    def reset
-        @cells = []
-        for row in (0..MAX_IDX) do
-            @cells[row] = []
-            for col in (0..MAX_IDX) do
-                @cells[row] << Cell.new(self, row, col)
-            end
-        end
+    def new_cells
+      (0..MAX_IDX).inject([]) { |cells, row| cells << new_empty_row(row) }
     end
     
+    def new_empty_row row
+      (0..MAX_IDX).map { |col| Cell.new(self, row, col) }
+    end
+
     def load(s)
         s = s.gsub(/\n/,'')
         i = 0
@@ -117,51 +116,9 @@ class Board
         cells.map {|cell| cell.value || "0"}.join
     end
 
-    def to_html highlight=nil
-        s = "<html>"
-        s << "<head><style>"
-        s << "
-        table { border-collapse: collapse }
-        span.e { visibility: hidden }
-        span.p { color: #CCC }
-        td { letter-spacing: 2px; text-align: center; vertical-align: middle }
-        td { width: 2.2em; height: 2.2em; border: 1px solid gray; padding: 5px }
-        td.t { border-top: 2px solid }
-        td.l { border-left: 2px solid }
-        td.b { border-bottom: 2px solid }
-        td.r { border-right: 2px solid }
-        td.s { font-size: 130%; font-weight: bold }"
-        s << "</style></head>\n"
-        s << "<body><table  style='float:left' border='0' cellspacing='0'>\n"
-        cells.each do |cell|
-            s << "<tr>" if (cell.first_in_row?)
-            cssclass = ""
-            cssclass << " t" if (cell.first_in_region_col?)
-            cssclass << " l" if (cell.first_in_region_row?)
-            cssclass << " b" if (cell.last_in_region_col?)
-            cssclass << " r" if (cell.last_in_region_row?)
-            cssclass << " s" if (cell.solved?)
-            s << "<td class='#{cssclass.strip}'>"
-            if (cell.solved?)
-                s << (cell.value || ".").to_s
-            else
-                (1..MAX_VAL).each do |v|
-                    if cell.possible?(v)
-                        s << "<span class='p'>#{v}</span>"
-                    else
-                        s << "<span class='e'>#{v}</span>"
-                    end
-                    s << "<br/>" if (v % DIM == 0)
-                end
-            end
-            s << "</td>\n"
-            s << "</tr>\n" if (cell.last_in_row?)
-        end
-        s << "</table><table style='float:right'><tr><td>num</td><td>possibles</td></tr>"
-        (1..MAX_VAL).each do |num|
-            s << "<tr><td>#{num}</td><td>#{possibles(num)}</td></tr>"
-        end
-        s << "</table></body></html>"
+    def to_html
+      template = File.read("board.html.erb")
+      ERB.new(template, nil, '>').result(binding)
     end
     
     # scans the board for a cell that can be solved
