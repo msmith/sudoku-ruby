@@ -8,30 +8,12 @@ class Board
     MAX_IDX = DIM2-1
     MAX_VAL = DIM2
     
-    def initialize
+    def initialize(board_string = "")
         @cells = new_cells
         @cells_in_col = []
         @cells_in_region = []
-    end
-    
-    def new_cells
-      (0..MAX_IDX).inject([]) { |cells, row| cells << new_empty_row(row) }
-    end
-    
-    def new_empty_row row
-      (0..MAX_IDX).map { |col| Cell.new(self, row, col) }
-    end
-
-    def load(s)
-        s = s.gsub(/\n/,'')
-        i = 0
-        for row in (0..MAX_IDX) do
-            for col in (0..MAX_IDX) do
-                num = s[i,1].to_i
-                i += 1
-                self[row, col] = num if num > 0
-            end
-        end
+        
+        load(board_string)
     end
     
     def [](row, col)
@@ -117,8 +99,8 @@ class Board
     end
 
     def to_html
-      template = File.read("board.html.erb")
-      ERB.new(template, nil, '>').result(binding)
+        template = File.read("board.html.erb")
+        ERB.new(template, nil, '>').result(binding)
     end
     
     # scans the board for a cell that can be solved
@@ -206,4 +188,27 @@ class Board
         end
     end
 
+private
+
+    def new_cells
+      (0..MAX_IDX).inject([]) { |cells, row| cells << new_empty_row(row) }
+    end
+    
+    def new_empty_row row
+      (0..MAX_IDX).map { |col| Cell.new(self, row, col) }
+    end
+
+    def load(s)
+        s = s.gsub(/\n/,'')
+        i = 0
+        for row in (0..MAX_IDX) do
+            for col in (0..MAX_IDX) do
+                next_char = s[i,1]
+                num = next_char.to_i
+                self[row, col] = num if num > 0
+                i += 1
+            end
+        end
+    end
+    
 end

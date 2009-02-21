@@ -15,7 +15,7 @@ if __FILE__ == $0
 
     file_in = nil
     html_out = nil
-    puzzle = nil
+    puzzle_string = nil
     max_turns = nil
     opts.each do |opt, arg|
         case opt
@@ -24,23 +24,21 @@ if __FILE__ == $0
         when "--html"
             html_out = arg
         when "--puzzle"
-            puzzle = arg
+            puzzle_string = arg
         when "--turns"
             max_turns = arg.to_i
         end
     end
 
-    unless file_in or puzzle
-        puts "You must provide a puzzle (-p) or puzzle file (-f)"
+    unless file_in or puzzle_string
+        puts "You must provide a puzzle string (-p) or puzzle file (-f)"
         exit 1
     end
-
-    b = Board.new
-    if (file_in)
-        b.load(File.read(file_in))
-    elsif (puzzle)
-        b.load(puzzle)
+    
+    if file_in
+        puzzle_string = File.read(file_in)
     end
+    b = Board.new(puzzle_string)
 
     puts b
     b.solve(max_turns) do |i, cell|
@@ -56,6 +54,12 @@ if __FILE__ == $0
         html_file = File.new("#{File.dirname(__FILE__)}/#{html_out}", "w")
         html_file.write b.to_html
         puts "Wrote puzzle to #{html_file.path}"
+    end
+
+    if b.solved?
+        exit 0
+    else
+        exit 1
     end
 
 end
