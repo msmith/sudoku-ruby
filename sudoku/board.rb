@@ -100,7 +100,8 @@ class Board
     end
 
     def to_html
-        template = File.read("board.html.erb")
+        template_file = File.dirname(__FILE__) + "/board.html.erb"
+        template = File.read(template_file)
         ERB.new(template, nil, '>').result(binding)
     end
     

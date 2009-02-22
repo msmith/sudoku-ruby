@@ -1,6 +1,8 @@
 <html>
 <head>
   <style type="text/css">
+    #board { float: left }
+    #stats { float: right }
     table { border-collapse: collapse }
     span.e { visibility: hidden }
     span.p { color: #CCC }
@@ -14,7 +16,7 @@
   </style>
 </head>
 <body>
-  <table style='float:left' border='0' cellspacing='0'>
+  <table id='board' border='0' cellspacing='0'>
   <% cells.each do |cell| %>
     <% if cell.first_in_row? %>
     <tr>
@@ -45,7 +47,7 @@
     <% end %>
   <% end %>
 </table>
-<table style='float:right'>
+<table id='stats'>
   <tr>
     <th>Num</th><th>Possibles</th>
   </tr>
