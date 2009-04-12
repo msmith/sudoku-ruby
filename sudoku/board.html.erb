@@ -1,8 +1,9 @@
 <html>
 <head>
   <style type="text/css">
+    body { margin: 2em }
     #board { float: left }
-    #stats { float: right }
+    #stats { float: left; margin: 0 3em }
     table { border-collapse: collapse }
     span.e { visibility: hidden }
     span.p { color: #CCC }
@@ -47,6 +48,7 @@
     <% end %>
   <% end %>
 </table>
+<% unless solved? %>
 <table id='stats'>
   <tr>
     <th>Num</th><th>Possibles</th>
@@ -58,5 +60,6 @@
     </tr>
 <% end %>
   </table>
+<% end %>
 </body>
 </html>

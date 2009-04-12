@@ -3,9 +3,16 @@
 require 'sudoku/board'
 require 'sudoku/solver'
 
+def print_usage
+    puts "Usage: #{$0} <puzzleset_filename>"
+    exit 1
+end
+
 if __FILE__ == $0
 
-    FILE = ARGV[0] || "sets/sudoku17"
+    puzzle_set = ARGV[0]
+
+    print_usage if puzzle_set.nil?
 
     solved = 0
     total = 0
@@ -14,10 +21,10 @@ if __FILE__ == $0
 
     out = ""
 
-    puts "Solving boards from #{FILE}"
+    puts "Solving boards from #{puzzle_set}"
     puts
 
-    File.open(FILE) do |f|
+    File.open(puzzle_set) do |f|
         f.each_line do |line|
             b = Sudoku::Board.new(line)
             Sudoku::Solver.new(b).solve

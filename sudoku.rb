@@ -3,6 +3,12 @@
 require 'sudoku/board'
 require 'sudoku/solver'
 
+def print_usage
+    puts "Usage: #{$0} -f <puzzle_file>"
+    puts "       #{$0} -p <puzzle_string>"
+    exit 1
+end
+
 if __FILE__ == $0
 
     require 'getoptlong'
@@ -31,25 +37,22 @@ if __FILE__ == $0
         end
     end
 
-    unless file_in or puzzle_string
-        puts "You must provide a puzzle string (-p) or puzzle file (-f)"
-        exit 1
-    end
+    print_usage if file_in.nil? and puzzle_string.nil?
     
     if file_in
         puzzle_string = File.read(file_in)
     end
+
     b = Sudoku::Board.new(puzzle_string)
-    
     puts b
-    Sudoku::Solver.new(b).solve(max_turns) do |i, cell|
+
+    solver = Sudoku::Solver.new(b)
+    solver.solve(max_turns) do |i, cell|
         puts
         puts "#{i}: #{cell} = #{cell.value}"
         puts
         puts b
     end
-
-    puts b.to_s3 unless b.solved?
 
     if html_out
         html_file = File.new("#{File.dirname(__FILE__)}/#{html_out}", "w")
@@ -57,10 +60,6 @@ if __FILE__ == $0
         puts "Wrote puzzle to #{html_file.path}"
     end
 
-    if b.solved?
-        exit 0
-    else
-        exit 1
-    end
+    exit (b.solved?) ? 0 : 1
 
 end
