@@ -47,7 +47,7 @@ if __FILE__ == $0
     b = Sudoku::Board.new(puzzle_string)
     puts b
 
-    solver = Sudoku::Solver.new(b)
+    solver = Sudoku::HeuristicSolver.new(b)
     solver.solve(max_turns) do |i, cell|
         puts
         puts "#{i}: #{cell} = #{cell.value}"

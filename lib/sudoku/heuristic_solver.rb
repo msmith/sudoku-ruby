@@ -2,7 +2,7 @@
 # A rule-based solver
 #
 module Sudoku
-class Solver
+class HeuristicSolver
 
     def initialize(board)
         @board = board

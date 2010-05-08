@@ -28,7 +28,7 @@ if __FILE__ == $0
     File.open(puzzle_set) do |f|
         f.each_line do |line|
             b = Sudoku::Board.new(line)
-            Sudoku::Solver.new(b).solve
+            Sudoku::HeuristicSolver.new(b).solve
             solved += 1 if b.solved?
             total += 1
             secs = (Time.now - start)

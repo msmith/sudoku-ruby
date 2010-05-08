@@ -1,4 +1,4 @@
 require 'sudoku/cell'
 require 'sudoku/board'
-require 'sudoku/solver'
+require 'sudoku/heuristic_solver'
 
