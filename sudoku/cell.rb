@@ -47,12 +47,13 @@ class Cell
     
     # returns all other cells that are in the same scope as this one
     def related_cells
-        return @related_cells if @related_cells
-        cells = @board.cells_in_row(row)
-        cells += @board.cells_in_col(col)
-        cells += @board.cells_in_region(region)
-        cells.delete(self)
-        @related_cells = cells.uniq
+        @related_cells ||= begin
+          cells = @board.cells_in_row(row)
+          cells += @board.cells_in_col(col)
+          cells += @board.cells_in_region(region)
+          cells.delete(self)
+          cells.uniq
+        end
     end
     
     def first_in_row?

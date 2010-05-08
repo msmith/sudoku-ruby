@@ -46,15 +46,15 @@ class Board
     end
     
     def rows
-        @rows ||= (0..MAX_IDX).collect { |row| cells_in_row(row) }
+        @rows ||= (0..MAX_IDX).map { |row| cells_in_row(row) }
     end
 
     def cols
-        @cols ||= (0..MAX_IDX).collect { |col| cells_in_col(col) }
+        @cols ||= (0..MAX_IDX).map { |col| cells_in_col(col) }
     end
 
     def regions
-        @regions ||= (0..MAX_IDX).collect { |region| cells_in_region(region) }
+        @regions ||= (0..MAX_IDX).map { |region| cells_in_region(region) }
     end
     
     def scopes
@@ -71,8 +71,7 @@ class Board
 
     # human-readable string
     def to_s
-        s = ""
-        @cells.each do |rows|
+        @cells.inject("") do |s, rows|
             rows.each do |cell|
                 s << (cell.value || ".").to_s
                 s << " "
@@ -81,22 +80,20 @@ class Board
             end
             s << "\n"
         end
-        s
     end
 
     # to sudokusolver.co.uk format
     def to_s2
-        s = ""
-        cells.each do |cell|
+        cells.inject("") do |s, cell|
             s << (cell.value || "_").to_s
             s << "+" if cell.last_in_row? and !cell.last_in_col?
+            s
         end
-        s
     end
 
     # a single string of 81 numbers, 0 means empty
     def to_s3
-        cells.map {|cell| cell.value || "0"}.join
+        cells.map { |cell| cell.value || "0" }.join
     end
 
     def to_html
