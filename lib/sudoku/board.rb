@@ -1,4 +1,3 @@
-require 'sudoku/cell'
 require 'erb'
 
 module Sudoku

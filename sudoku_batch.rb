@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
-require 'sudoku/board'
-require 'sudoku/solver'
+$:.unshift File.join(File.dirname(__FILE__), "lib")
+
+require "sudoku"
 
 def print_usage
     puts "Usage: #{$0} <puzzleset_filename>"

@@ -1,5 +1,3 @@
-require 'sudoku/board'
-
 #
 # A rule-based solver
 #
